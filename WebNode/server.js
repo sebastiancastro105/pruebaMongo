@@ -23,7 +23,7 @@ const sensorSchema = new mongoose.Schema({
   temperature: Number,
   humidity: Number,
   light: Number,
-  led_state: Boolean,
+  led_state_light: Boolean,
   timestamp: { type: Date, default: Date.now }
 });
 
@@ -32,13 +32,13 @@ const SensorData = mongoose.model("SensorData", sensorSchema); // Creación de m
 // Endpoint para recibir datos desde el ESP32, deben ser JSON
 app.post("/data", async (req, res) => {
   try {
-    const { device_id, temperature, humidity, light, led_state } = req.body;
+    const { device_id, temperature, humidity, light, led_state_light } = req.body;
 
-    if (!device_id || temperature === undefined || humidity === undefined || light === undefined || led_state === undefined) {
+    if (!device_id || temperature === undefined || humidity === undefined || light === undefined || led_state_light === undefined) {
       return res.status(400).json({ error: "Faltan campos en la solicitud" });
     }
 
-    const newData = new SensorData({ device_id, temperature, humidity, light, led_state }); // Crea documento SensorData con los valores
+    const newData = new SensorData({ device_id, temperature, humidity, light, led_state_light }); // Crea documento SensorData con los valores
     await newData.save(); // Guardamos el documento en la base de datos
 
     res.status(201).json({ message: "Datos guardados correctamente" });
@@ -65,3 +65,4 @@ app.get("/", (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Servidor corriendo en puerto ${PORT}`));
+

@@ -64,7 +64,32 @@ app.get("/", (req, res) => {
   res.send("API IoT ESP32 + MongoDB Atlas funcionando correctamente!");
 });
 
+let ledConfigurationState = true;
+let ledParkingAction = true; // estado actual de la orden enviada por la web
+
+app.post("/ledConfiguration", (req, res) => {
+  const { led_configuration_state, led_parking_action } = req.body;
+
+  ledConfigurationState = led_configuration_state;
+  ledParkingAction = led_parking_action
+  
+  return res.json({ 
+    message: "Estado del LED actualizado",
+    led_light: ledConfigurationState
+  });
+});
+
+app.get("/ledConfiguration", (req, res) => {
+  
+
+  ledConfigurationState = led_configuration_state;
+  ledParkingAction = led_parking_action
+  
+  return res.json({ led_configuration_state : ledConfigurationState, led_parking_action: ledParkingAction });
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Servidor corriendo en puerto ${PORT}`));
+
 
 

@@ -79,17 +79,15 @@ app.post("/ledConfiguration", (req, res) => {
   });
 });
 
-app.get("/ledConfiguration", (req, res) => {
-  
+app.get("/ledConfigurationEsp", (req, res) => {
 
-  led_configuration_state = ledConfigurationState;
-  led_parking_action = ledParkingAction;
   
   return res.json({ led_configuration_state : ledConfigurationState, led_parking_action: ledParkingAction });
 });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Servidor corriendo en puerto ${PORT}`));
+
 
 
 
